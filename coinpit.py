@@ -37,9 +37,6 @@ user = pyelliptic.ECC(privkey=user_priv_key_bin, pubkey=uncompressed_user_key, c
 
 sharedsecret = user.get_ecdh_key(uncompressed_server_key)
 
-print 'Server pub key', server_pub_key
-print 'Shared Secret ', sharedsecret.encode('hex')
-
 nonce = str(long(time.time() * 1000))
 mac = hmac.new(sharedsecret, '{"method":"GET","uri":"' + uri + '","nonce":'+ nonce +'}', hashlib.sha256)
 sig = mac.hexdigest()
