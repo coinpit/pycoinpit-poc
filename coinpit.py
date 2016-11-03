@@ -16,7 +16,8 @@ keys = json.load(open(filename, 'r'), 'utf8')
 
 user_pub_key=keys['publicKey']
 userid = keys['address']
-baseurl= "https://live.coinpit.io" if userid[0] == '1' else "http://localhost:9000"
+baseurl= "https://live.coinpit.io" if userid[0] == '1' else "https://live.coinpit.me"
+network_code = 0 if userid[0] == '1' else 111
 
 headers = {
     'Authorization' : 'HMAC ' + userid,
@@ -31,7 +32,7 @@ pub_key_bytes = binascii.unhexlify(server_pub_key)
 uncompressed_user_key = binascii.unhexlify(pybitcointools.decompress(user_pub_key))
 uncompressed_server_key = binascii.unhexlify(pybitcointools.decompress(server_pub_key))
 
-user_priv_key_bin = binascii.unhexlify(pybitcointools.encode_privkey(keys['privateKey'], 'hex', 111))
+user_priv_key_bin = binascii.unhexlify(pybitcointools.encode_privkey(keys['privateKey'], 'hex', network_code))
 
 user = pyelliptic.ECC(privkey=user_priv_key_bin, pubkey=uncompressed_user_key, curve='secp256k1')
 
